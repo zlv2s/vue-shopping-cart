@@ -1,5 +1,7 @@
 # shopping-cart
 
+an example of shopping cart based on vuex, to be completed...
+
 ## Project setup
 ```
 npm install
