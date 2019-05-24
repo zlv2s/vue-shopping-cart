@@ -45,6 +45,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h1 {
+  margin-bottom: 20px;
+}
 .box {
   width: 230px;
   background-color: #fff;

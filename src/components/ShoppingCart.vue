@@ -23,7 +23,19 @@
       <div @click="removeCartItem(product)" class="del">Remove</div>
       <div class="totalprice">{{(product.price * product.quantity)|currency}}</div>
     </div>
-    <h5>Total: {{total|currency}}</h5>
+    <div class="bottom">
+      <a
+        :class="{'pure-button-disabled':!products.length}"
+        @click.prevent="checkout"
+        class="pure-button"
+        href="#"
+      >
+        <i class="fa fa-shopping-cart fa-lg"></i>
+        Checkout
+      </a>
+      <h5>Total: {{total|currency}}</h5>
+    </div>
+    <p>{{status}}</p>
   </div>
 </template>
 
@@ -36,7 +48,7 @@ export default {
       total: 'cart/cartTotal'
     }),
     ...mapState({
-      status: 'cart/checkoutStatus'
+      status: state => state.cart.checkoutStatus
     })
   },
   methods: {
@@ -53,8 +65,9 @@ export default {
 
 <style lang="scss" scoped>
 .cart {
-  margin-top: 50px;
+  margin-top: 100px;
   overflow: hidden;
+  margin-bottom: 100px;
   .head {
     width: 100%;
     border-bottom: 1px solid #bfbfbf;
@@ -156,10 +169,18 @@ export default {
       flex: 0.8;
     }
   }
-  h5 {
-    font-size: 1.2rem;
-    text-align: right;
-    margin-top: 20px;
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+
+    h5 {
+      font-size: 20px;
+    }
+  }
+  p {
+    font-size: 20px;
   }
 }
 </style>
