@@ -16,11 +16,11 @@
       </div>
       <p class="price">{{product.price|currency}}</p>
       <div class="qty-op">
-        <p @click="minusQty(product)" class="qty-minus">-</p>
+        <p @click="decrementCartQty(product)" class="qty-minus">-</p>
         <p class="qty">{{product.quantity}}</p>
-        <p @click="addProductToCart(product)" class="qty-plus">+</p>
+        <p @click="incrementCartQty(product)" class="qty-plus">+</p>
       </div>
-      <div @click="removeItem(product)" class="del">Remove</div>
+      <div @click="removeCartItem(product)" class="del">Remove</div>
       <div class="totalprice">{{(product.price * product.quantity)|currency}}</div>
     </div>
     <h5>Total: {{total|currency}}</h5>
@@ -42,7 +42,10 @@ export default {
   methods: {
     ...mapActions({
       checkout: 'cart/checkout',
-      addProductToCart: 'cart/addProductToCart'
+      addProductToCart: 'cart/addProductToCart',
+      incrementCartQty: 'cart/incrementCartQty',
+      decrementCartQty: 'cart/decrementCartQty',
+      removeCartItem: 'cart/removeCartItem'
     })
   }
 }

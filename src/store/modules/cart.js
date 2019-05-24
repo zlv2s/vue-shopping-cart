@@ -10,6 +10,7 @@ export default {
       return state.cart.map(cartItem => {
         const product = rootState.product.products.find(product => product.id === cartItem.id)
         return {
+          id: cartItem.id,
           title: product.title,
           img: product.img,
           price: product.price,
@@ -33,6 +34,23 @@ export default {
         commit('product/decrementProductInventory', product, { root: true })
       }
     },
+
+    incrementCartQty({ commit, rootGetters, rootState }, item) {
+      const product = rootState.product.products.find(product => product.id === item.id)
+      if (rootGetters['product/productIsInStock'](product)) {
+        commit('incrementItemQuantity', item)
+        commit('product/decrementProductInventory', product, { root: true })
+      }
+    },
+
+    decrementCartQty({ commit }, item) {
+      commit('decrementItemQuantity', item)
+    },
+
+    removeCartItem({ commit }, item) {
+      commit('remove', item)
+    },
+
     checkout({ commit, state }) {
       shop.buyProducts(state.cart, () => {
         commit('emptyCart')
@@ -54,12 +72,19 @@ export default {
       const cartItem = state.cart.find(item => item.id === id)
       cartItem.quantity++
     },
+
     decrementItemQuantity(state, { id }) {
       const cartItem = state.cart.find(item => item.id === id)
-      cartItem.quantity = cartItem.quantity === 0 ? 0 : cartItem - 1
+      cartItem.quantity = cartItem.quantity === 0 ? 0 : cartItem.quantity - 1
     },
+
     emptyCart(state) {
       state.cart = []
+    },
+
+    remove(state, { id }) {
+      const itemIndex = state.cart.findIndex(item => item.id === id)
+      state.cart.splice(itemIndex, 1)
     },
 
     setCheckoutStatus(state, status) {
